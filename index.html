@@ -50,18 +50,18 @@
       justify-content: center;
       align-items: center;
       width: 100%;
-      max-width: 90%; /* Ensures list doesn't exceed 90% of the screen width */
-      z-index: 1500; /* Higher z-index to bring carousel forward */
+      max-width: 90%;
+      z-index: 1500;
     }
 
     .list li {
       list-style-type: none;
-      width: 450px; /* Increased width */
-      height: 450px; /* Increased height */
+      width: 450px;
+      height: 450px;
       opacity: 0.25;
       position: absolute;
       left: 50%;
-      margin-left: -225px; /* Adjusted to center the larger images */
+      margin-left: -225px;
       border-radius: 2px;
       background: #9C89B8;
       transition: transform 1s, opacity 1s;
@@ -111,7 +111,7 @@
       border-radius: 2px;
       opacity: 0;
       transition: opacity 0.3s ease;
-      display: none; /* Initially hidden */
+      display: none;
     }
 
     .list li.zoomed {
@@ -143,13 +143,13 @@
       border-radius: 10px;
       box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.1);
       text-align: center;
-      z-index: 100; /* Lower z-index for the info section */
+      z-index: 100;
     }
 
     /* Media Queries for Responsiveness */
     @media (max-width: 768px) {
       .list li {
-        width: 350px; /* Adjusted for smaller screens */
+        width: 350px;
         height: 350px;
       }
 
@@ -164,7 +164,7 @@
 
     @media (max-width: 480px) {
       .list li {
-        width: 300px; /* Adjusted for even smaller screens */
+        width: 300px;
         height: 300px;
       }
 
@@ -174,6 +174,22 @@
 
       .title img {
         width: 70%;
+      }
+    }
+
+    /* Additional adjustments for very small screens (e.g., mobile portrait) */
+    @media (max-width: 375px) {
+      .list li {
+        width: 280px;
+        height: 280px;
+      }
+
+      .info-section {
+        padding: 8px;
+      }
+
+      .title img {
+        width: 60%;
       }
     }
   </style>
@@ -336,9 +352,8 @@
 
   <div class="info-section">
     <h2>ALQUILER DE VESTIDOS</h2>
-    <p>
-      QUINCEANERAS - GRADUACIONES - FIESTAS</p>
-    <p>CONTACTO: 347 600 5127 via Whatsapp</p>
+    <p>Quinceañeras - Graduaciones - Fiestas</p>
+    <p>Contacto: 347 600 5127 (vía WhatsApp)</p>
   </div>
 
 </body>
