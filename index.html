@@ -55,49 +55,49 @@
     }
     
 .list {
-  height: 300px; /* Adjust height */
+  height: 250px; /* Adjust height to be more compact */
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 100%; /* Ensures list stretches across the container */
-  max-width: 100vw; /* Avoids overflow */
+  width: 90vw; /* Adjust width relative to viewport size */
+  max-width: 100vw; /* Avoid overflow */
   display: flex;
   justify-content: center; /* Centers list items horizontally */
-  gap: 20px; /* Adds space between the list items */
+  gap: 10px; /* Reduced space between items */
 }
 
 .list li {
   list-style-type: none;
-  width: 30vw;  /* Width relative to the viewport width */
-  height: 50vh; /* Height relative to the viewport height */
+  width: 20vw;  /* Adjust width relative to the viewport width (smaller) */
+  height: 35vh; /* Adjust height relative to the viewport height (smaller) */
   opacity: 0.25;
-  position: relative; /* Changed to relative for better control over spacing */
-  margin: 0 10px; /* Adds horizontal space between items */
-  border-radius: 20px;
+  position: relative;
+  margin: 0 5px; /* Reduced margin to bring items closer */
+  border-radius: 15px;
   background: #9C89B8;
-  transition: transform 0.8s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.8s ease-in-out; /* Smooth cubic-bezier easing */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); /* Added shadow for visual depth */
-  overflow: hidden; /* Ensures the image stays inside the container */
-  z-index: 1; /* Default z-index for all images */
+  transition: transform 0.8s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.8s ease-in-out;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  z-index: 1;
 }
 
 .list li.act {
-  z-index: 10; /* Active image is on top */
-  opacity: 1; /* Fully visible */
-  transform: scale(1); /* Ensures the active image is not scaled */
+  z-index: 10;
+  opacity: 1;
+  transform: scale(1);
 }
 
 .list li.prev,
 .list li.next {
-  z-index: 0; /* Lower z-index for the previous and next images */
+  z-index: 0;
 }
 
 .list li img {
-  width: 100%;  /* Image scales to fit container width */
-  height: 100%; /* Image scales to fit container height */
-  object-fit: contain; /* Ensures the image stays within the container */
-  border-radius: 20px;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 15px;
 }
 
 .list .prev,
@@ -106,34 +106,34 @@
 }
 
 .list .prev {
-  transform: translateX(-220px) scale(0.85);
+  transform: translateX(-160px) scale(0.85); /* Reduced translation */
 }
 
 .list .next {
-  transform: translateX(220px) scale(0.85);
+  transform: translateX(160px) scale(0.85); /* Reduced translation */
 }
 
 .list .hide,
 .list .new-next {
-  transform: translateX(420px) scale(0.85);
+  transform: translateX(300px) scale(0.85); /* Adjusted to match the closer layout */
   opacity: 0;
   transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
 }
 
 .list .new-next {
-  transform: translateX(420px) scale(0.85);
+  transform: translateX(300px) scale(0.85);
 }
 
 .list .zoomed {
-  transform: scale(2) !important;
+  transform: scale(1.5) !important;
   z-index: 10;
   opacity: 1 !important;
-  transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), z-index 0.3s ease-in-out; /* Smooth zoom animation */
+  transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), z-index 0.3s ease-in-out;
 }
 
 .swipe {
-  width: 400px; /* Increased width of the swipe area */
-  height: 350px; /* Increased height of the swipe area */
+  width: 300px;
+  height: 250px;
   position: absolute;
   background-color: green;
   border-radius: 2px;
@@ -141,7 +141,7 @@
   left: 50%;
   transform: translate(-50%, -50%);
   opacity: 0;
-  transition: opacity 0.3s ease-in-out; /* Smooth fade-in/fade-out */
+  transition: opacity 0.3s ease-in-out;
 }
 
 .overlay {
@@ -151,8 +151,9 @@
   width: 100vw;
   height: 100vh;
   z-index: 5;
-  background: rgba(0, 0, 0, 0.5); /* Transparent background for overlay */
+  background: rgba(0, 0, 0, 0.5);
 }
+
     
 .info-section {
   position: fixed;
@@ -269,30 +270,30 @@
 <script src="https://hammerjs.github.io/dist/hammer.min.js"></script>
 <script>
   const $ = selector => document.querySelector(selector);
-  const imageUrls = [
+const imageUrls = [
     "https://i.ibb.co/8gKk75mv/PHOTO-2025-03-31-13-09-23.png",
     "https://i.ibb.co/4R1CNLkD/PHOTO-2025-03-31-13-09-12.png",
     "https://i.ibb.co/N22rPQXt/PHOTO-2025-03-31-13-09-33.png",
     "https://i.ibb.co/MkzJvghr/PHOTO-2025-03-31-13-09-10.png"
-  ];
-  let currentIndex = 0;
+];
+let currentIndex = 2;  // Start from the middle image to avoid an undefined state
 
-  function getNextImage() {
+function getNextImage() {
     currentIndex = (currentIndex + 1) % imageUrls.length;
     return imageUrls[currentIndex];
-  }
+}
 
-  function getPrevImage() {
+function getPrevImage() {
     currentIndex = (currentIndex - 1 + imageUrls.length) % imageUrls.length;
     return imageUrls[currentIndex];
-  }
+}
 
-  function next() {
+function next() {
     removeZoom();
     if ($(".hide")) $(".hide").remove();
     if ($(".prev")) {
-      $(".prev").classList.add("hide");
-      $(".prev").classList.remove("prev");
+        $(".prev").classList.add("hide");
+        $(".prev").classList.remove("prev");
     }
     $(".act").classList.remove("zoomed");
     $(".act").classList.add("prev");
@@ -307,9 +308,9 @@
     img.alt = "Image";
     addedEl.appendChild(img);
     $(".list").appendChild(addedEl);
-  }
+}
 
-  function prev() {
+function prev() {
     removeZoom();
     $(".new-next")?.remove();
     $(".next").classList.add("new-next");
@@ -327,94 +328,85 @@
     img.alt = "Image";
     addedEl.appendChild(img);
     $(".list").insertBefore(addedEl, $(".list").firstChild);
-  }
+}
 
-  function toggleZoom(element) {
+function toggleZoom(element) {
     const isZoomed = element.classList.contains('zoomed');
     removeZoom();
     if (!isZoomed) {
-      element.classList.add('zoomed');
-      addOverlay();
+        element.classList.add('zoomed');
+        addOverlay();
     }
-  }
+}
 
-  function removeZoom() {
+function removeZoom() {
     document.querySelectorAll('.zoomed').forEach(el => el.classList.remove('zoomed'));
     removeOverlay();
-  }
+}
 
-  function addOverlay() {
+function addOverlay() {
     if (!document.querySelector('.overlay')) {
-      const overlay = document.createElement('div');
-      overlay.className = 'overlay';
-      overlay.onclick = removeZoom;
-      document.body.appendChild(overlay);
+        const overlay = document.createElement('div');
+        overlay.className = 'overlay';
+        overlay.onclick = removeZoom;
+        document.body.appendChild(overlay);
     }
-  }
+}
 
-  function removeOverlay() {
+function removeOverlay() {
     document.querySelector('.overlay')?.remove();
-  }
+}
 
-  function slide(element) {
+function slide(element) {
     const target = element.closest('li');
     if (target?.classList.contains('act')) {
-      toggleZoom(target);
+        toggleZoom(target);
     } else if (target?.classList.contains('next')) {
-      next();
+        next();
     } else if (target?.classList.contains('prev')) {
-      prev();
+        prev();
     }
-  }
+}
 
-  const slider = $(".list"),
+const slider = $(".list"),
     swipe = new Hammer($(".swipe"));
-  slider.onclick = event => {
+slider.onclick = event => {
     slide(event.target);
-  };
-  swipe.get('swipe').set({
+};
+swipe.get('swipe').set({
     direction: Hammer.DIRECTION_HORIZONTAL
-  });
-  swipe.on("swipeleft", () => next());
-  swipe.on("swiperight", () => prev());
+});
+swipe.on("swipeleft", () => next());
+swipe.on("swiperight", () => prev());
 
-  // Pinch-to-zoom on center image
-  const actImg = () => document.querySelector(".act");
-  const pinchHammer = new Hammer(document.body);
-  pinchHammer.get('pinch').set({
+// Pinch-to-zoom on center image
+const actImg = () => document.querySelector(".act");
+const pinchHammer = new Hammer(document.body);
+pinchHammer.get('pinch').set({
     enable: true
-  });
-  let scale = 1;
-  pinchHammer.on('pinchstart', () => {
+});
+let scale = 1;
+pinchHammer.on('pinchstart', () => {
     scale = 1;
-  });
-  pinchHammer.on('pinch', ev => {
+});
+pinchHammer.on('pinch', ev => {
     const act = actImg();
     if (act) {
-      act.classList.add("zoomed");
-      addOverlay();
-      scale = ev.scale;
-      act.style.transform = `scale(${Math.min(Math.max(scale, 1), 5)})`; /* Increased the max scale to 5 */
+        act.classList.add("zoomed");
+        addOverlay();
+        scale = ev.scale;
+        act.style.transform = `scale(${Math.min(Math.max(scale, 1), 5)})`;  // Max scale increased to 5
     }
-  });
-  pinchHammer.on('pinchend', () => {
+});
+pinchHammer.on('pinchend', () => {
     const act = actImg();
     if (scale < 1.1 && act) {
-      act.classList.remove("zoomed");
-      act.style.transform = '';
-      removeOverlay();
+        act.classList.remove("zoomed");
+        act.style.transform = '';
+        removeOverlay();
     }
-  });
+});
 
-  // Add click event listeners to each image for zoom toggle
-  document.querySelectorAll(".list img").forEach(img => {
-    img.addEventListener("click", () => {
-      const act = actImg(); // Get the current active image
-      if (img === act) {
-        toggleZoom(img.closest('li')); // Zoom only if it's the active image
-      }
-    });
-  });
 </script>
 
 
