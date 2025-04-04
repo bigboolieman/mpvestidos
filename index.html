@@ -12,19 +12,30 @@
 
     .title {
       position: fixed;
-      top: 20px;
+      top: 8px;
+      /* Adjust vertical position */
       left: 50%;
       transform: translateX(-50%);
-      font-size: 48px;
-      font-weight: bold;
-      z-index: 1000;
       padding: 10px 20px;
+      /* Adjust padding as needed */
+      text-align: center;
+      /* Centers the content inside the div */
+      z-index: -1000;
+      max-width: 100%;
+      /* Ensures it does not overflow */
+    }
+
+    .title img {
+      max-width: 100%;
+      /* Resizes the image based on container width */
+      height: auto;
+      /* Maintains aspect ratio */
     }
 
     body {
       overflow-x: hidden;
       background: #fed5c8;
-      font-family: Mon;
+      font-family: Bodoni Moda;
     }
 
     .list {
@@ -137,7 +148,7 @@
     }
   </style>
 </head>
-<div class="title">MP VESTIDOS</div>
+<div class="title"><img src="https://github.com/bigboolieman/mpvestidos/blob/main/t.png?raw=true" alt="Image 1" /></div>
 <div class="spacer"></div> <!-- Spacer to make room for fixed title -->
 
 <body>
