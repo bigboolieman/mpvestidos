@@ -74,18 +74,18 @@
   transition: transform 0.8s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.8s ease-in-out;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
   overflow: hidden;
-  z-index: 1;
+  z-index: 10000;
 }
 
 .list li.act {
-  z-index: 10;
+  z-index: 1000000;
   opacity: 1;
   transform: scale(1);
 }
 
 .list li.prev,
 .list li.next {
-  z-index: 0;
+  z-index: 100000000;
 }
 
 .list li img {
@@ -121,7 +121,7 @@
 
 .list .zoomed {
   transform: scale(1.5) !important;
-  z-index: 10;
+  z-index: 10000000000;
   opacity: 1 !important;
   transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), z-index 0.3s ease-in-out;
 }
@@ -242,6 +242,63 @@
     font-size: 0.9rem;
   }
 }
+    
+.div {
+  position: absolute;          /* Use absolute positioning for centering */
+  top: 50%;                    /* Center vertically */
+  left: 50%;                   /* Center horizontally */
+  transform: translate(-50%, -50%); /* Adjust for the exact center */
+  max-width: 800px;            /* Set a max width */
+  width: 100%;                 /* Ensure the div takes full width, but won't exceed max-width */
+  height: 500px;               /* Specify a valid height */
+  z-index: 9999;               /* Ensure it's on top of other elements */
+}
+
+/* Media queries for responsive design */
+@media (max-width: 1024px) {
+  .div {
+    padding: 25px;             /* Adjust padding for medium screens */
+    max-width: 700px;          /* Reduce max-width */
+  }
+
+  .div h2 {
+    font-size: 2.2rem;         /* Slightly smaller heading */
+  }
+
+  .div p {
+    font-size: 1.1rem;         /* Slightly smaller text */
+  }
+}
+
+@media (max-width: 768px) {
+  .div {
+    padding: 20px;             /* Further reduce padding for small screens */
+    max-width: 600px;          /* Reduce max-width */
+  }
+
+  .div h2 {
+    font-size: 2rem;           /* Smaller heading */
+  }
+
+  .div p {
+    font-size: 1rem;           /* Smaller text */
+  }
+}
+
+@media (max-width: 480px) {
+  .div {
+    padding: 15px;             /* Even smaller padding for very small screens */
+    max-width: 500px;          /* Reduce max-width further */
+  }
+
+  .div h2 {
+    font-size: 1.8rem;         /* Smaller heading for mobile */
+  }
+
+  .div p {
+    font-size: 0.9rem;         /* Even smaller text */
+  }
+}
 
 
   </style>
@@ -249,7 +306,7 @@
 
 <div class="title"><img src="https://github.com/bigboolieman/mpvestidos/blob/main/t.png?raw=true" alt="Image 1" /></div>
 <div class="spacer"></div> <!-- Spacer to make room for fixed title -->
-
+<div class="div">
 <body>
 
   <ul class="list">
@@ -258,7 +315,7 @@
     <li class="act"><img src="https://i.ibb.co/N22rPQXt/PHOTO-2025-03-31-13-09-33.png" alt="Image 3" /></li>
     <li class="next"><img src="https://i.ibb.co/MkzJvghr/PHOTO-2025-03-31-13-09-10.png" alt="Image 4" /></li>
     <li class="next new-next"><img src="https://i.ibb.co/8gKk75mv/PHOTO-2025-03-31-13-09-23.png" alt="Image 1 Duplicate" /></li>
-  </ul>
+  </ul></div>
 
   <div class="swipe"></div>
 
