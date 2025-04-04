@@ -1,78 +1,304 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MP VESTIDOS</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            text-align: center;
-            background-color: #f5f5f5;
-        }
+  <meta charset="UTF-8">
+  <title>MP VESTIDOS</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+    }
 
-        .title {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 48px;
-            font-weight: bold;
-            background-color: #f5f5f5; /* Optional: adds background to title */
-            z-index: 1000;
-            padding: 10px 20px;
-        }
+    .title {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 48px;
+      font-weight: bold;
+      z-index: 1000;
+      padding: 10px 20px;
+    }
 
-        .spacer {
-            height: 100px; /* Add space below fixed title */
-        }
+    body {
+      overflow-x: hidden;
+      background: #fed5c8;
+      font-family: Mon;
+    }
 
-        .image-container {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin: 20px;
-            flex-wrap: wrap;
-        }
+    .list {
+      height: 200px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
 
-        .image-container img {
-            width: 200px;
-            height: 350px;
-            object-fit: cover;
-            border-radius: 0;
-            box-shadow: none;
-        }
+    .list li {
+      list-style-type: none;
+      width: 200px;
+      height: 200px;
+      opacity: 0.25;
+      position: absolute;
+      left: 50%;
+      margin-left: -100px;
+      border-radius: 2px;
+      background: #9C89B8;
+      transition: transform 1s, opacity 1s;
+    }
 
-        .info-section {
-            max-width: 800px;
-            margin: 40px auto;
-            padding: 20px;
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.1);
-        }
-    </style>
+    .list li img {
+      width: 100%;
+      height: 100%;
+      border-radius: 2px;
+      object-fit: cover;
+      touch-action: none;
+      /* needed for pinch zoom */
+    }
+
+    .list .act {
+      opacity: 1;
+    }
+
+    .list .prev,
+    .list .next {
+      cursor: pointer;
+    }
+
+    .list .prev {
+      transform: translateX(-220px) scale(.85);
+    }
+
+    .list .next {
+      transform: translateX(220px) scale(.85);
+    }
+
+    .list .hide {
+      transform: translateX(-420px) scale(.85);
+    }
+
+    .list .new-next {
+      transform: translateX(420px) scale(.85);
+    }
+
+    .list .hide,
+    .list .new-next {
+      opacity: 0;
+      transition: opacity .5s, transform .5s;
+    }
+
+    .swipe {
+      width: 270px;
+      height: 200px;
+      position: absolute;
+      background-color: green;
+      border-radius: 2px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      opacity: 0;
+    }
+
+    .list li.zoomed {
+      transform: scale(2) !important;
+      z-index: 10;
+      opacity: 1 !important;
+      transition: transform 0.3s ease, z-index 0.3s ease;
+    }
+
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 5;
+      background: transparent;
+    }
+
+    .info-section {
+      position: fixed;
+      /* Fixes it to the screen */
+      left: 50%;
+      /* Position it in the middle horizontally */
+      transform: translateX(-50%);
+      /* Adjusts for the element's width */
+      position: fixed;
+      /* or absolute, depending on your layout */
+      bottom: 0;
+      text-align: center;
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.1);
+    }
+  </style>
 </head>
+<div class="title">MP VESTIDOS</div>
+<div class="spacer"></div> <!-- Spacer to make room for fixed title -->
+
 <body>
 
-    <div class="title">MP VESTIDOS</div>
-    <div class="spacer"></div> <!-- Spacer to make room for fixed title -->
+  <ul class="list">
+    <li class="hide"><img src="https://i.ibb.co/8gKk75mv/PHOTO-2025-03-31-13-09-23.png" alt="Image 1" /></li>
+    <li class="prev"><img src="https://i.ibb.co/4R1CNLkD/PHOTO-2025-03-31-13-09-12.png" alt="Image 2" /></li>
+    <li class="act"><img src="https://i.ibb.co/N22rPQXt/PHOTO-2025-03-31-13-09-33.png" alt="Image 3" /></li>
+    <li class="next"><img src="https://i.ibb.co/MkzJvghr/PHOTO-2025-03-31-13-09-10.png" alt="Image 4" /></li>
+    <li class="next new-next"><img src="https://i.ibb.co/8gKk75mv/PHOTO-2025-03-31-13-09-23.png" alt="Image 1 Duplicate" /></li>
+  </ul>
 
-    <div class="image-container">
-        <img src="https://i.ibb.co/8gKk75mv/PHOTO-2025-03-31-13-09-23.png" alt="Image 1">
-        <img src="https://i.ibb.co/4R1CNLkD/PHOTO-2025-03-31-13-09-12.png" alt="Image 2">
-        <img src="https://i.ibb.co/N22rPQXt/PHOTO-2025-03-31-13-09-33.png" alt="Image 3">
-        <img src="https://i.ibb.co/MkzJvghr/PHOTO-2025-03-31-13-09-10.png" alt="Image 4">
-    </div>
+  <div class="swipe"></div>
 
-    <div class="info-section">
-        <h2>ALQUILER DE VESTIDOS</h2>
-        <p>
-            QUINCEANERAS - GRADUACIONES - FIESTAS - CONTACTO: 347 600 5127 via Whatsapp
-        </p>
-    </div>
+  <script src="https://hammerjs.github.io/dist/hammer.min.js"></script>
+  <script>
+    const $ = selector => document.querySelector(selector);
+    const imageUrls = [
+      "https://i.ibb.co/8gKk75mv/PHOTO-2025-03-31-13-09-23.png",
+      "https://i.ibb.co/4R1CNLkD/PHOTO-2025-03-31-13-09-12.png",
+      "https://i.ibb.co/N22rPQXt/PHOTO-2025-03-31-13-09-33.png",
+      "https://i.ibb.co/MkzJvghr/PHOTO-2025-03-31-13-09-10.png"
+    ];
+    let currentIndex = 0;
+
+    function getNextImage() {
+      currentIndex = (currentIndex + 1) % imageUrls.length;
+      return imageUrls[currentIndex];
+    }
+
+    function getPrevImage() {
+      currentIndex = (currentIndex - 1 + imageUrls.length) % imageUrls.length;
+      return imageUrls[currentIndex];
+    }
+
+    function next() {
+      removeZoom();
+      if ($(".hide")) $(".hide").remove();
+      if ($(".prev")) {
+        $(".prev").classList.add("hide");
+        $(".prev").classList.remove("prev");
+      }
+      $(".act").classList.remove("zoomed");
+      $(".act").classList.add("prev");
+      $(".act").classList.remove("act");
+      $(".next").classList.add("act");
+      $(".next").classList.remove("next");
+      $(".new-next").classList.remove("new-next");
+      const addedEl = document.createElement('li');
+      addedEl.classList.add("next", "new-next");
+      const img = document.createElement('img');
+      img.src = getNextImage();
+      img.alt = "Image";
+      addedEl.appendChild(img);
+      $(".list").appendChild(addedEl);
+    }
+
+    function prev() {
+      removeZoom();
+      $(".new-next")?.remove();
+      $(".next").classList.add("new-next");
+      $(".act").classList.remove("zoomed");
+      $(".act").classList.add("next");
+      $(".act").classList.remove("act");
+      $(".prev").classList.add("act");
+      $(".prev").classList.remove("prev");
+      $(".hide").classList.add("prev");
+      $(".hide").classList.remove("hide");
+      const addedEl = document.createElement('li');
+      addedEl.classList.add("hide");
+      const img = document.createElement('img');
+      img.src = getPrevImage();
+      img.alt = "Image";
+      addedEl.appendChild(img);
+      $(".list").insertBefore(addedEl, $(".list").firstChild);
+    }
+
+    function toggleZoom(element) {
+      const isZoomed = element.classList.contains('zoomed');
+      removeZoom();
+      if (!isZoomed) {
+        element.classList.add('zoomed');
+        addOverlay();
+      }
+    }
+
+    function removeZoom() {
+      document.querySelectorAll('.zoomed').forEach(el => el.classList.remove('zoomed'));
+      removeOverlay();
+    }
+
+    function addOverlay() {
+      if (!document.querySelector('.overlay')) {
+        const overlay = document.createElement('div');
+        overlay.className = 'overlay';
+        overlay.onclick = removeZoom;
+        document.body.appendChild(overlay);
+      }
+    }
+
+    function removeOverlay() {
+      document.querySelector('.overlay')?.remove();
+    }
+
+    function slide(element) {
+      const target = element.closest('li');
+      if (target?.classList.contains('act')) {
+        toggleZoom(target);
+      } else if (target?.classList.contains('next')) {
+        next();
+      } else if (target?.classList.contains('prev')) {
+        prev();
+      }
+    }
+    const slider = $(".list"),
+      swipe = new Hammer($(".swipe"));
+    slider.onclick = event => {
+      slide(event.target);
+    };
+    swipe.get('swipe').set({
+      direction: Hammer.DIRECTION_HORIZONTAL
+    });
+    swipe.on("swipeleft", () => next());
+    swipe.on("swiperight", () => prev());
+    // Pinch-to-zoom on center image
+    const actImg = () => document.querySelector(".act");
+    const pinchHammer = new Hammer(document.body);
+    pinchHammer.get('pinch').set({
+      enable: true
+    });
+    let scale = 1;
+    pinchHammer.on('pinchstart', () => {
+      scale = 1;
+    });
+    pinchHammer.on('pinch', ev => {
+      const act = actImg();
+      if (act) {
+        act.classList.add("zoomed");
+        addOverlay();
+        scale = ev.scale;
+        act.style.transform = `scale(${Math.min(Math.max(scale, 1), 3)})`;
+      }
+    });
+    pinchHammer.on('pinchend', () => {
+      const act = actImg();
+      if (scale < 1.1 && act) {
+        act.classList.remove("zoomed");
+        act.style.transform = '';
+        removeOverlay();
+      }
+    });
+  </script>
+  <div class="spacer"></div> <!-- Spacer to make room for fixed title -->
+  <div class="info-section">
+    <h2>ALQUILER DE VESTIDOS</h2>
+    <p>
+      QUINCEANERAS - GRADUACIONES - FIESTAS</p>
+    <p>CONTACTO: 347 600 5127 via Whatsapp
+    </p>
+  </div>
 
 </body>
+
 </html>
