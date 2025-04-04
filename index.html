@@ -3,201 +3,258 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MP VESTIDOS</title>
   <style>
-    * {
-      padding: 0;
-      margin: 0;
-      box-sizing: border-box;
+* {
+  padding: 0;
+  margin: 0;
+}
+
+.title {
+  position: fixed;
+  top: 0px; /* Keeps it at the top */
+  left: 50%;
+  transform: translateX(-50%); /* Ensures it stays horizontally centered */
+  z-index: -1000; /* Keeps it above other content */
+   min-width: 400px; /* Minimum width ensures the image never gets smaller than this value */
+  max-width: 100%; /* Prevents overflow */
+  box-sizing: border-box; /* Prevents padding from affecting width */
+  height: auto; /* Maintains the aspect ratio of the image */
     }
+
+.title img {
+  width: 100%; /* Scales the image to the width of the container */
+  height: auto; /* Maintains aspect ratio */
+  display: block; /* Removes space below the image */
+}
+
+@media (max-width: 1024px) {
+  .title {
+    width: 30%; /* Adjust image width for tablets */
+  }
+}
+
+@media (max-width: 768px) {
+  .title {
+    width: 50%; /* Adjust image width for smaller screens */
+    top: 5px; /* Keeps space from the top */
+  }
+}
+
+@media (max-width: 480px) {
+  .title {
+    width: 60%; /* Further adjust image width for mobile */
+    top: 5px; /* Further adjust position for mobile */
+  }
+}
 
     body {
       overflow-x: hidden;
       background: #fed5c8;
-      font-family: Bodoni Moda, sans-serif;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      height: 100vh;
+      font-family: Bodoni Moda;
     }
+    
+.list {
+  height: 300px; /* Adjust height */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%; /* Ensures list stretches across the container */
+  max-width: 100vw; /* Avoids overflow */
+  display: flex;
+  justify-content: center; /* Centers list items horizontally */
+  gap: 20px; /* Adds space between the list items */
+}
 
-    .title {
-      position: fixed;
-      top: 8px;
-      left: 50%;
-      transform: translateX(-50%);
-      padding: 10px 20px;
-      text-align: center;
-      z-index: 1000;
-      max-width: 100%;
-      width: 100%;
-      display: flex;
-      justify-content: center;
-    }
+.list li {
+  list-style-type: none;
+  width: 30vw;  /* Width relative to the viewport width */
+  height: 50vh; /* Height relative to the viewport height */
+  opacity: 0.25;
+  position: relative; /* Changed to relative for better control over spacing */
+  margin: 0 10px; /* Adds horizontal space between items */
+  border-radius: 20px;
+  background: #9C89B8;
+  transition: transform 0.8s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.8s ease-in-out; /* Smooth cubic-bezier easing */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); /* Added shadow for visual depth */
+  overflow: hidden; /* Ensures the image stays inside the container */
+  z-index: 1; /* Default z-index for all images */
+}
 
-    .title img {
-      max-width: 100%;
-      height: auto;
-    }
+.list li.act {
+  z-index: 10; /* Active image is on top */
+  opacity: 1; /* Fully visible */
+  transform: scale(1); /* Ensures the active image is not scaled */
+}
 
-    .list {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
-      max-width: 90%;
-      z-index: 1500;
-    }
+.list li.prev,
+.list li.next {
+  z-index: 0; /* Lower z-index for the previous and next images */
+}
 
-    .list li {
-      list-style-type: none;
-      width: 450px;
-      height: 450px;
-      opacity: 0.25;
-      position: absolute;
-      left: 50%;
-      margin-left: -225px;
-      border-radius: 2px;
-      background: #9C89B8;
-      transition: transform 1s, opacity 1s;
-    }
+.list li img {
+  width: 100%;  /* Image scales to fit container width */
+  height: 100%; /* Image scales to fit container height */
+  object-fit: contain; /* Ensures the image stays within the container */
+  border-radius: 20px;
+}
 
-    .list li img {
-      width: 100%;
-      height: 100%;
-      border-radius: 2px;
-      object-fit: cover;
-    }
+.list .prev,
+.list .next {
+  cursor: pointer;
+}
 
-    .list .act {
-      opacity: 1;
-    }
+.list .prev {
+  transform: translateX(-220px) scale(0.85);
+}
 
-    .list .prev,
-    .list .next {
-      cursor: pointer;
-    }
+.list .next {
+  transform: translateX(220px) scale(0.85);
+}
 
-    .list .prev {
-      transform: translateX(-220px) scale(.85);
-    }
+.list .hide,
+.list .new-next {
+  transform: translateX(420px) scale(0.85);
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
 
-    .list .next {
-      transform: translateX(220px) scale(.85);
-    }
+.list .new-next {
+  transform: translateX(420px) scale(0.85);
+}
 
-    .list .hide {
-      transform: translateX(-420px) scale(.85);
-    }
+.list .zoomed {
+  transform: scale(2) !important;
+  z-index: 10;
+  opacity: 1 !important;
+  transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), z-index 0.3s ease-in-out; /* Smooth zoom animation */
+}
 
-    .list .new-next {
-      transform: translateX(420px) scale(.85);
-    }
+.swipe {
+  width: 400px; /* Increased width of the swipe area */
+  height: 350px; /* Increased height of the swipe area */
+  position: absolute;
+  background-color: green;
+  border-radius: 2px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out; /* Smooth fade-in/fade-out */
+}
 
-    .list .hide,
-    .list .new-next {
-      opacity: 0;
-      transition: opacity .5s, transform .5s;
-    }
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 5;
+  background: rgba(0, 0, 0, 0.5); /* Transparent background for overlay */
+}
+    
+.info-section {
+  position: fixed;
+  left: 50%;
+  bottom: 0.5px;
+  transform: translateX(-50%);
+  text-align: center;
+  max-width: 900px;
+  width: 100%;
+  height: 5
+  padding: 20px 30px;
+  background: rgba(255, 255, 255, 0.3); /* Semi-transparent white background */
+  border-radius: 20px;
+  box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.1), -10px -10px 15px rgba(255, 255, 255, 0.7); /* Neumorphism effect */
+  font-family: 'Poppins', sans-serif;
+  color: #333;
+  backdrop-filter: blur(10px); /* Optional blur effect */
+  border: 1px solid rgba(255, 255, 255, 0.5); /* Light border for extra effect */
+  animation: fadeInUp 0.8s ease-out;
+}
 
-    .swipe {
-      position: absolute;
-      background-color: green;
-      border-radius: 2px;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-      display: none;
-    }
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
-    .list li.zoomed {
-      transform: scale(2) !important;
-      z-index: 10;
-      opacity: 1 !important;
-      transition: transform 0.3s ease, z-index 0.3s ease;
-    }
+.info-section h2 {
+  font-size: 2.0rem;
+  color: #3a3a3a; /* Darker header for contrast */
+  margin-bottom: 10px;
+  font-weight: 600;
+}
 
-    .overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: 5;
-      background: rgba(0, 0, 0, 0.5);
-    }
+.info-section p {
+  font-size: 1.2rem;
+  line-height: 1.6; /* Fixed line-height for readability */
+  color: #555;
+  margin-bottom: 1px;
+}
 
-    .info-section {
-      position: fixed;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      max-width: 800px;
-      width: 100%;
-      padding: 20px;
-      background-color: white;
-      border-radius: 10px;
-      box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.1);
-      text-align: center;
-      z-index: 100;
-    }
+.info-section p:last-child {
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: #6a1b9a; /* A fresh pop of color for the contact text */
+}
 
-    /* Media Queries for Responsiveness */
-    @media (max-width: 768px) {
-      .list li {
-        width: 350px;
-        height: 350px;
-      }
+@media (max-width: 1024px) {
+  .info-section {
+    padding: 25px 25px;
+  }
 
-      .info-section {
-        padding: 15px;
-      }
+  .info-section h2 {
+    font-size: 2.2rem; /* Slightly smaller heading */
+  }
 
-      .title img {
-        width: 80%;
-      }
-    }
+  .info-section p {
+    font-size: 1.1rem;
+  }
+}
 
-    @media (max-width: 480px) {
-      .list li {
-        width: 300px;
-        height: 300px;
-      }
+@media (max-width: 768px) {
+  .info-section {
+    padding: 20px 15px;
+  }
 
-      .info-section {
-        padding: 10px;
-      }
+  .info-section h2 {
+    font-size: 2rem; /* Smaller heading */
+  }
 
-      .title img {
-        width: 70%;
-      }
-    }
+  .info-section p {
+    font-size: 1rem;
+  }
+}
 
-    /* Additional adjustments for very small screens (e.g., mobile portrait) */
-    @media (max-width: 375px) {
-      .list li {
-        width: 280px;
-        height: 280px;
-      }
+@media (max-width: 480px) {
+  .info-section {
+    padding: 15px 10px;
+  }
 
-      .info-section {
-        padding: 8px;
-      }
+  .info-section h2 {
+    font-size: 1.8rem; /* Smaller heading for mobile */
+  }
 
-      .title img {
-        width: 60%;
-      }
-    }
+  .info-section p {
+    font-size: 0.9rem;
+  }
+}
+
+
   </style>
 </head>
 
-<body>
+<div class="title"><img src="https://github.com/bigboolieman/mpvestidos/blob/main/t.png?raw=true" alt="Image 1" /></div>
+<div class="spacer"></div> <!-- Spacer to make room for fixed title -->
 
-  <div class="title"><img src="https://github.com/bigboolieman/mpvestidos/blob/main/t.png?raw=true" alt="Image 1" /></div>
+<body>
 
   <ul class="list">
     <li class="hide"><img src="https://i.ibb.co/8gKk75mv/PHOTO-2025-03-31-13-09-23.png" alt="Image 1" /></li>
@@ -209,151 +266,166 @@
 
   <div class="swipe"></div>
 
-  <script src="https://hammerjs.github.io/dist/hammer.min.js"></script>
-  <script>
-    const $ = selector => document.querySelector(selector);
-    const imageUrls = [
-      "https://i.ibb.co/8gKk75mv/PHOTO-2025-03-31-13-09-23.png",
-      "https://i.ibb.co/4R1CNLkD/PHOTO-2025-03-31-13-09-12.png",
-      "https://i.ibb.co/N22rPQXt/PHOTO-2025-03-31-13-09-33.png",
-      "https://i.ibb.co/MkzJvghr/PHOTO-2025-03-31-13-09-10.png"
-    ];
-    let currentIndex = 0;
+<script src="https://hammerjs.github.io/dist/hammer.min.js"></script>
+<script>
+  const $ = selector => document.querySelector(selector);
+  const imageUrls = [
+    "https://i.ibb.co/8gKk75mv/PHOTO-2025-03-31-13-09-23.png",
+    "https://i.ibb.co/4R1CNLkD/PHOTO-2025-03-31-13-09-12.png",
+    "https://i.ibb.co/N22rPQXt/PHOTO-2025-03-31-13-09-33.png",
+    "https://i.ibb.co/MkzJvghr/PHOTO-2025-03-31-13-09-10.png"
+  ];
+  let currentIndex = 0;
 
-    function getNextImage() {
-      currentIndex = (currentIndex + 1) % imageUrls.length;
-      return imageUrls[currentIndex];
-    }
+  function getNextImage() {
+    currentIndex = (currentIndex + 1) % imageUrls.length;
+    return imageUrls[currentIndex];
+  }
 
-    function getPrevImage() {
-      currentIndex = (currentIndex - 1 + imageUrls.length) % imageUrls.length;
-      return imageUrls[currentIndex];
-    }
+  function getPrevImage() {
+    currentIndex = (currentIndex - 1 + imageUrls.length) % imageUrls.length;
+    return imageUrls[currentIndex];
+  }
 
-    function next() {
-      removeZoom();
-      if ($(".hide")) $(".hide").remove();
-      if ($(".prev")) {
-        $(".prev").classList.add("hide");
-        $(".prev").classList.remove("prev");
-      }
-      $(".act").classList.remove("zoomed");
-      $(".act").classList.add("prev");
-      $(".act").classList.remove("act");
-      $(".next").classList.add("act");
-      $(".next").classList.remove("next");
-      $(".new-next").classList.remove("new-next");
-      const addedEl = document.createElement('li');
-      addedEl.classList.add("next", "new-next");
-      const img = document.createElement('img');
-      img.src = getNextImage();
-      img.alt = "Image";
-      addedEl.appendChild(img);
-      $(".list").appendChild(addedEl);
-    }
-
-    function prev() {
-      removeZoom();
-      $(".new-next")?.remove();
-      $(".next").classList.add("new-next");
-      $(".act").classList.remove("zoomed");
-      $(".act").classList.add("next");
-      $(".act").classList.remove("act");
-      $(".prev").classList.add("act");
+  function next() {
+    removeZoom();
+    if ($(".hide")) $(".hide").remove();
+    if ($(".prev")) {
+      $(".prev").classList.add("hide");
       $(".prev").classList.remove("prev");
-      $(".hide").classList.add("prev");
-      $(".hide").classList.remove("hide");
-      const addedEl = document.createElement('li');
-      addedEl.classList.add("hide");
-      const img = document.createElement('img');
-      img.src = getPrevImage();
-      img.alt = "Image";
-      addedEl.appendChild(img);
-      $(".list").insertBefore(addedEl, $(".list").firstChild);
     }
+    $(".act").classList.remove("zoomed");
+    $(".act").classList.add("prev");
+    $(".act").classList.remove("act");
+    $(".next").classList.add("act");
+    $(".next").classList.remove("next");
+    $(".new-next").classList.remove("new-next");
+    const addedEl = document.createElement('li');
+    addedEl.classList.add("next", "new-next");
+    const img = document.createElement('img');
+    img.src = getNextImage();
+    img.alt = "Image";
+    addedEl.appendChild(img);
+    $(".list").appendChild(addedEl);
+  }
 
-    function toggleZoom(element) {
-      const isZoomed = element.classList.contains('zoomed');
-      removeZoom();
-      if (!isZoomed) {
-        element.classList.add('zoomed');
-        addOverlay();
-      }
+  function prev() {
+    removeZoom();
+    $(".new-next")?.remove();
+    $(".next").classList.add("new-next");
+    $(".act").classList.remove("zoomed");
+    $(".act").classList.add("next");
+    $(".act").classList.remove("act");
+    $(".prev").classList.add("act");
+    $(".prev").classList.remove("prev");
+    $(".hide").classList.add("prev");
+    $(".hide").classList.remove("hide");
+    const addedEl = document.createElement('li');
+    addedEl.classList.add("hide");
+    const img = document.createElement('img');
+    img.src = getPrevImage();
+    img.alt = "Image";
+    addedEl.appendChild(img);
+    $(".list").insertBefore(addedEl, $(".list").firstChild);
+  }
+
+  function toggleZoom(element) {
+    const isZoomed = element.classList.contains('zoomed');
+    removeZoom();
+    if (!isZoomed) {
+      element.classList.add('zoomed');
+      addOverlay();
     }
+  }
 
-    function removeZoom() {
-      document.querySelectorAll('.zoomed').forEach(el => el.classList.remove('zoomed'));
+  function removeZoom() {
+    document.querySelectorAll('.zoomed').forEach(el => el.classList.remove('zoomed'));
+    removeOverlay();
+  }
+
+  function addOverlay() {
+    if (!document.querySelector('.overlay')) {
+      const overlay = document.createElement('div');
+      overlay.className = 'overlay';
+      overlay.onclick = removeZoom;
+      document.body.appendChild(overlay);
+    }
+  }
+
+  function removeOverlay() {
+    document.querySelector('.overlay')?.remove();
+  }
+
+  function slide(element) {
+    const target = element.closest('li');
+    if (target?.classList.contains('act')) {
+      toggleZoom(target);
+    } else if (target?.classList.contains('next')) {
+      next();
+    } else if (target?.classList.contains('prev')) {
+      prev();
+    }
+  }
+
+  const slider = $(".list"),
+    swipe = new Hammer($(".swipe"));
+  slider.onclick = event => {
+    slide(event.target);
+  };
+  swipe.get('swipe').set({
+    direction: Hammer.DIRECTION_HORIZONTAL
+  });
+  swipe.on("swipeleft", () => next());
+  swipe.on("swiperight", () => prev());
+
+  // Pinch-to-zoom on center image
+  const actImg = () => document.querySelector(".act");
+  const pinchHammer = new Hammer(document.body);
+  pinchHammer.get('pinch').set({
+    enable: true
+  });
+  let scale = 1;
+  pinchHammer.on('pinchstart', () => {
+    scale = 1;
+  });
+  pinchHammer.on('pinch', ev => {
+    const act = actImg();
+    if (act) {
+      act.classList.add("zoomed");
+      addOverlay();
+      scale = ev.scale;
+      act.style.transform = `scale(${Math.min(Math.max(scale, 1), 5)})`; /* Increased the max scale to 5 */
+    }
+  });
+  pinchHammer.on('pinchend', () => {
+    const act = actImg();
+    if (scale < 1.1 && act) {
+      act.classList.remove("zoomed");
+      act.style.transform = '';
       removeOverlay();
     }
+  });
 
-    function addOverlay() {
-      if (!document.querySelector('.overlay')) {
-        const overlay = document.createElement('div');
-        overlay.className = 'overlay';
-        overlay.onclick = removeZoom;
-        document.body.appendChild(overlay);
-      }
-    }
-
-    function removeOverlay() {
-      document.querySelector('.overlay')?.remove();
-    }
-
-    function slide(element) {
-      const target = element.closest('li');
-      if (target?.classList.contains('act')) {
-        toggleZoom(target);
-      } else if (target?.classList.contains('next')) {
-        next();
-      } else if (target?.classList.contains('prev')) {
-        prev();
-      }
-    }
-
-    const slider = $(".list"),
-      swipe = new Hammer($(".swipe"));
-    slider.onclick = event => {
-      slide(event.target);
-    };
-    swipe.get('swipe').set({
-      direction: Hammer.DIRECTION_HORIZONTAL
-    });
-    swipe.on("swipeleft", () => next());
-    swipe.on("swiperight", () => prev());
-
-    // Pinch-to-zoom on center image
-    const actImg = () => document.querySelector(".act");
-    const pinchHammer = new Hammer(document.body);
-    pinchHammer.get('pinch').set({
-      enable: true
-    });
-    let scale = 1;
-    pinchHammer.on('pinchstart', () => {
-      scale = 1;
-    });
-    pinchHammer.on('pinch', ev => {
-      const act = actImg();
-      if (act) {
-        act.classList.add("zoomed");
-        addOverlay();
-        scale = ev.scale;
-        act.style.transform = `scale(${Math.min(Math.max(scale, 1), 5)})`; /* Increased the max scale to 5 */
+  // Add click event listeners to each image for zoom toggle
+  document.querySelectorAll(".list img").forEach(img => {
+    img.addEventListener("click", () => {
+      const act = actImg(); // Get the current active image
+      if (img === act) {
+        toggleZoom(img.closest('li')); // Zoom only if it's the active image
       }
     });
-    pinchHammer.on('pinchend', () => {
-      const act = actImg();
-      if (scale < 1.1 && act) {
-        act.classList.remove("zoomed");
-        act.style.transform = '';
-        removeOverlay();
-      }
-    });
-  </script>
+  });
+</script>
+
+
+
+  <div class="spacer"></div> <!-- Spacer to make room for fixed title -->
 
   <div class="info-section">
-    <h2>ALQUILER DE VESTIDOS</h2>
-    <p>Quinceañeras - Graduaciones - Fiestas</p>
-    <p>Contacto: 347 600 5127 (vía WhatsApp)</p>
+<h2>ALQUILER DE VESTIDOS</h2>
+<p>Quinceañeras - Graduaciones - Fiestas</p>
+<p>Contacto: 347 600 5127 (vía WhatsApp)</p>
+    </p>
   </div>
 
 </body>
